@@ -2,13 +2,21 @@ Arabic NLP
 =
 
 
-Morphological Analyzer
+Morphological Analysis
 -
 
+**Stemmer**
 ```python
 from arabicnlp.morpho.stem import ISRIStemmer
 stemmer = ISRIStemmer()
 stemmer.stem(u'حركات') # u'\u062d\u0631\u0643', حرك
+```
+
+**Rooter**
+```python
+from arabicnlp.morpho.root import SAMARooter
+sama = SAMARooter()
+sama.root('daras-u_1') # 'drs'
 ```
 
 **Other Morphological Tools**
