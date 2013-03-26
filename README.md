@@ -1,11 +1,18 @@
 Arabic NLP
 =
 
-Tools of the Trade
--
 
 Morphological Analyzer
 -
+
+```python
+from arabicnlp.morpho.stem import ISRIStemmer
+stemmer = ISRIStemmer()
+stemmer.stem(u'حركات') # u'\u062d\u0631\u0643', حرك
+```
+
+**Other Morphological Tools**
+
 It is absolutely crucial to obtain the latest version of SAMA for analysis purposes.
 Aramorph and BAMA 2.0 are have outdated and buggy dictionaries (use at your own peril).
 
