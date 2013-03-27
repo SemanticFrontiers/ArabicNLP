@@ -21,6 +21,8 @@ class SAMARooter(Rooter):
 
         if not root:
             root = self.root(lemma)
+            if not root:
+                return None
 
         # no "real" roots are longer than 4
         if len(root) > 4 or len(root) < 3:
