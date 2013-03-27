@@ -12,11 +12,14 @@ stemmer = ISRIStemmer()
 stemmer.stem(u'حركات') # u'\u062d\u0631\u0643', حرك
 ```
 
-**Rooter**
+**Root and Template**
 ```python
 from arabicnlp.morpho.root import SAMARooter
 sama = SAMARooter()
 sama.root('daras-u_1') # 'drs'
+
+sama.pattern('daras-u_1')  # '1a2a3'
+sama.ppattern('daras-u_1') # 'fa3al'
 ```
 
 **Other Morphological Tools**
