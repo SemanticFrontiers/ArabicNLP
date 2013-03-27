@@ -11,7 +11,7 @@ def head_word(tree):
     Returns the first (non-empty) leaf in a tree. Can be punctuation.
     Returns None if there is no head leaf.
     '''
-    leaves = list(t.subtrees(not_trace))
+    leaves = list(tree.subtrees(not_trace))
     return leaves[0] if leaves else None
 
 def tail_word(tree):
@@ -19,7 +19,7 @@ def tail_word(tree):
     Returns the last (non-empty) leaf in a tree. Can be punctuation.
     Returns None if there is no tail leaf.
     '''
-    leaves = list(t.subtrees(not_trace))
+    leaves = list(tree.subtrees(not_trace))
     return leaves[-1] if leaves else None
 
 if __name__ == '__main__':
