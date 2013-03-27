@@ -33,9 +33,5 @@ We assume you have obtained the SAMA tarball `LDC2010L01.tgz`, from the LDC's
 ```zsh
 $ pwd
 /Users/maxlikely/projects/ArabicNLP/lib/SAMA
-$ ls
-LDC2010L01.tgz README.md
 $ tar -xvzf LDC2010L01.tgz
-$ ls
-LDC2010L01.tgz README.md      sama_3_1
 ```
