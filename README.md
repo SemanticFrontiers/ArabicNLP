@@ -1,6 +1,13 @@
 Arabic NLP
 =
 
+The Arabic NLP tools is in disarray. Most resources require affiliation with a
+university and are scattered across the web. This is an attempt to rectify that.
+
+This repository will attempt to provide Python wrappers (and perhaps eventually
+`brew` formulae!) for many of our field's tools. Unzip any vanilla Arabic NLP
+tool into your `lib` folder and sit back! Also, whenever possible, we will
+try to include implementations of state-of-the-art algorithms.
 
 Morphological Analysis
 -
