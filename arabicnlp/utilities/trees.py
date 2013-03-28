@@ -4,7 +4,8 @@
 
 import constants
 
-not_trace = lambda t: t.height() == 2 and t.node != '-NONE-'
+not_trace = lambda tree: tree.height() == 2 and tree.node != '-NONE-'
+has_lemma = lambda tree: tree.lemma
 
 def head_leaf(tree):
     '''
@@ -21,6 +22,12 @@ def tail_leaf(tree):
     '''
     leaves = list(tree.subtrees(not_trace))
     return leaves[-1] if leaves else None
+
+def get_lemmas(tree):
+    '''
+    Returns all lemmas for a tree.
+    '''
+    return [st.lemma for st in tree.subtrees(has_lemma)]
 
 if __name__ == '__main__':
     import doctest
