@@ -10,6 +10,15 @@ import constants
 not_trace = lambda tree: tree.height() == 2 and tree.node != '-NONE-'
 has_lemma = lambda tree: tree.lemma
 
+def get_leaves(tree, ignore_traces=True):
+    '''
+    Returns all leaves of a tree. Default behavior ignores traces. Otherwise
+    same as nltk.tree.Tree.leaves().
+    '''
+    if ignore_traces:
+        return [word for word, pos in tree.pos() if pos != '-NONE-']
+    return tree.leaves()
+
 def num_leaves(tree, ignore_traces=True):
     '''
     Returns the # of leaves of a tree (default ignores traces).
