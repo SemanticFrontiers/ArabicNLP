@@ -12,7 +12,14 @@ class SAMARooter(Rooter):
         '''
         Takes a SAMA-specified lemma and returns its root (الجذر).
         '''
-        return constants.SAMA_LEMMA_TO_ROOT.get(lemma, None)
+        return constants.SAMA_LEMMA_TO_ROOT.get(lemma, None) \ 
+                or constants.SAMA_LEMMA_TO_ROOT.get(lemma + '_1', None)
+
+    def _weak_pattern(self, lemma, root):
+        '''
+        Return pattern for 'weak' roots.
+        '''
+        raise NotImplemented('Should come up with extractor for weak patterns.')
 
     def pattern(self, lemma, root=None):
         '''
@@ -30,6 +37,10 @@ class SAMARooter(Rooter):
 
         lemma = lemma.split('_')[0]
         lemma = lemma.split('-')[0]
+
+        # TODO: weak patterns
+        #if 'w' in root:
+        #    return self._weak_pattern(lemma, root)
 
         root_placeholders = '123456789'[:len(root)]
 
