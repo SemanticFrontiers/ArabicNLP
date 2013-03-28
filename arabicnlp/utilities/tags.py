@@ -33,6 +33,48 @@ def get_case_from_atb_tag(tag):
             return t
     return None
 
+##############################################################
+## Code to reduce POS tags and tree labels to simpler forms ##
+##############################################################
+
+def strip_dashtags(s):
+    '''Removes dashtags from a string s.'''
+    return s if s == '-NONE-' else s.split('-')[0].split('=')[0]
+
+def strip_morphotags(s):
+    '''Removes any morphological markings from POS string s.'''
+
+    s = s.split(':')[0]
+    plus_split = s.split('+')
+
+    for tag in plus_split:
+        if tag in ARABIC_POS_TAGS:
+            return tag
+        under_split = tag.split('_')
+        if len(under_split) > 2:
+            underscore_tag = '%s_%s' % (under_split[0], under_split[1])
+            if underscore_tag in ARABIC_POS_TAGS:
+                return underscore_tag
+        else:
+            for othertag in under_split:
+                if othertag in ARABIC_POS_TAGS:
+                    return othertag
+    return s
+
+def strip_all(s):
+    s = strip_dashtags(s)
+    s = strip_morphotags(s)
+    return s
+
+def collapse_verb_tag(tag):
+    '''Collapses all verbs into "VB" tag.'''
+
+    # hack for english compatibility
+    if 'VB' in tag:
+        return 'VB'
+
+    return 'VB' if tag in ARABIC_VERB_TAGS else tag
+
 if __name__ == '__main__':
     import doctest
     doctest.testmod()
