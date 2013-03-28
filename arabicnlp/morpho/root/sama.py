@@ -12,7 +12,7 @@ class SAMARooter(Rooter):
         '''
         Takes a SAMA-specified lemma and returns its root (الجذر).
         '''
-        return constants.SAMA_LEMMA_TO_ROOT.get(lemma, None) \ 
+        return constants.SAMA_LEMMA_TO_ROOT.get(lemma, None) \
                 or constants.SAMA_LEMMA_TO_ROOT.get(lemma + '_1', None)
 
     def _weak_pattern(self, lemma, root):
