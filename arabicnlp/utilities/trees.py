@@ -9,6 +9,15 @@ import constants
 
 not_trace = lambda tree: tree.height() == 2 and tree.node != '-NONE-'
 has_lemma = lambda tree: tree.lemma
+is_clause_node = lambda tree: any([tree.node.startswith(s) for s in ['S', 'SBAR', 'SQ', 'SBARQ', 'FRAG', 'TOP']])
+def is_sister_or_ancestor(treepos, sis_treepos): 
+    if len(sis_treepos) < len(treepos):
+        return True
+    
+    if len(sis_treepos) == len(treepos) and \
+            sis_treepos[:-1] == treepos[:-1]:
+                return True
+    return False
 
 def get_leaves(tree, ignore_traces=True):
     '''
@@ -83,11 +92,14 @@ def get_path(tree, pred_treepos, constituent_treepos):
     >>> pred_treepos = (1, 1, 1, 1, 0, 0)
     >>> constituent_treepos = (1, 1, 0, 0, 0)
     >>> get_path(tree, pred_treepos, constituent_treepos)
-    [((1, 1, 1, 1, 0, 0), u'\u2191'), ((1, 1, 1, 1, 0), u'\u2191'), ((1, 1, 1, 1), u'\u2191'), ((1, 1, 1), u'\u2191'), ((1, 1), u'\u2193'), ((1, 1, 0), u'\u2193'), ((1, 1, 0, 0), u'\u2193'), ((1, 1, 0, 0, 0), u'\u2193')]
+    [((1, 1, 1, 1, 0, 0), 'UP'), ((1, 1, 1, 1, 0), 'UP'), ((1, 1, 1, 1), 'UP'), ((1, 1, 1), 'UP'), ((1, 1), 'DOWN'), ((1, 1, 0), 'DOWN'), ((1, 1, 0, 0), 'DOWN'), ((1, 1, 0, 0, 0), 'DOWN')]
     '''
 
     up   = u'\u2191'
     down = u'\u2193'
+
+    up   = 'UP'
+    down = 'DOWN'
 
     a = len(lowest_common_ancestor(tree, pred_treepos, constituent_treepos))
     pred_treepos_path = [(pred_treepos[:x], up) for x in xrange(len(pred_treepos), a, -1)]
@@ -95,6 +107,15 @@ def get_path(tree, pred_treepos, constituent_treepos):
     path = pred_treepos_path + constituent_treepos_path
 
     return path
+
+def get_clause_node(tree, node_treepos):
+    '''
+    Returns the lowest S, SBAR, etc... node that the given node is a child of.
+    '''
+    cur_pos = node_treepos
+    while not is_clause_node(tree[cur_pos]):
+        cur_pos = cur_pos[:-1]
+    return tree[cur_pos]
 
 if __name__ == '__main__':
     import doctest

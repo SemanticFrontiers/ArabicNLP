@@ -73,7 +73,7 @@ def simplify_verb_tag(tag):
     if 'VB' in tag:
         return 'VB'
 
-    return 'VB' if tag in constants.ARABIC_VERB_TAGS else tag
+    return 'VB' if strip_all(tag) in constants.ARABIC_VERB_TAGS else tag
 
 if __name__ == '__main__':
     import doctest
