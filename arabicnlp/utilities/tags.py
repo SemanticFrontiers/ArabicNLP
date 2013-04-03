@@ -93,6 +93,38 @@ def gender(tag):
     # case 3: Adj  w/ gender
     
     return None
+
+def number(tag):
+    '''
+    Returns number of a tag if it has, otherwise None.
+    >>> 'IV3MS+IV+IVSUFF_MOOD:I'
+    'M'
+
+    >>> ''
+    'F'
+
+    >>> 'DET+NOUN+CASE_DEF_ACC'
+    None
+    '''
+
+    # case 1: Verb w/ number
+    # case 2: Noun w/ number
+    # case 3: Adj  w/ number
+    
+    return None
+
+def is_passive(tag):
+    '''
+    Returns true if the given tag is a passive verb. Otherwise, false.
+    >>> is_passive('PV_PASS+PVSUFF_SUBJ:3MS')
+    True
+
+    >>> is_passive('IV3MS+IV+IVSUFF_MOOD:I')
+    False
+    '''
+    return 'PASS' in tag
+
+
 if __name__ == '__main__':
     import doctest
     doctest.testmod()
