@@ -41,16 +41,16 @@ def strip_dashtags(s):
     '''Removes dashtags from a string s.'''
     return s if s == '-NONE-' else s.split('-')[0].split('=')[0]
 
-def strip_morphotags(s):
+def strip_morphotags(tag):
     '''Removes any morphological markings from POS string s.'''
 
-    s = s.split(':')[0]
-    plus_split = s.split('+')
+    tag = tag.split(':')[0]
+    plus_split = tag.split('+')
 
-    for tag in plus_split:
-        if tag in constants.ARABIC_POS_TAGS:
-            return tag
-        under_split = tag.split('_')
+    for sub_tag in plus_split:
+        if sub_tag in constants.ARABIC_POS_TAGS:
+            return sub_tag
+        under_split = sub_tag.split('_')
         if len(under_split) > 2:
             underscore_tag = '%s_%s' % (under_split[0], under_split[1])
             if underscore_tag in constants.ARABIC_POS_TAGS:
@@ -59,12 +59,12 @@ def strip_morphotags(s):
             for othertag in under_split:
                 if othertag in constants.ARABIC_POS_TAGS:
                     return othertag
-    return s
+    return tag
 
-def strip_all(s):
-    s = strip_dashtags(s)
-    s = strip_morphotags(s)
-    return s
+def strip_all(tag):
+    tag = strip_dashtags(tag)
+    tag = strip_morphotags(tag)
+    return tag
 
 def simplify_verb_tag(tag):
     '''Collapses all verbs into "VB" tag.'''
@@ -75,6 +75,24 @@ def simplify_verb_tag(tag):
 
     return 'VB' if strip_all(tag) in constants.ARABIC_VERB_TAGS else tag
 
+def gender(tag):
+    '''
+    Returns gender of a tag if it has, otherwise None.
+    >>> 'IV3MS+IV+IVSUFF_MOOD:I'
+    'M'
+
+    >>> ''
+    'F'
+
+    >>> 'DET+NOUN+CASE_DEF_ACC'
+    None
+    '''
+
+    # case 1: Verb w/ gender
+    # case 2: Noun w/ gender
+    # case 3: Adj  w/ gender
+    
+    return None
 if __name__ == '__main__':
     import doctest
     doctest.testmod()
