@@ -80,19 +80,17 @@ def gender(tag):
     '''
     Returns gender of a tag if it has, otherwise None.
     >>> 'IV3MS+IV+IVSUFF_MOOD:I'
-    'MASC'
+    'Masculine'
 
     >>> ''
-    'FEM'
+    'Feminine'
 
     >>> 'DET+NOUN+CASE_DEF_ACC'
     None
     '''
 
-    masc = 'MASC'
-    fem  = 'FEM'
-    # TODO: default case MASC
-    # TODO: PRON, REL_PRON, DEM_PRON, POSS_PRON_2MP
+    masc = 'Masculine'
+    fem  = 'Feminine'
 
     # case 1: Verb w/ gender
     if tag.startswith('IV') and len(tag) >= 3:
@@ -234,69 +232,67 @@ def person(tag):
 
 def number(tag):
     '''
-    Returns number of a tag if it has, otherwise None.
+    Returns number of a nominal or verbal if it is marked, otherwise None.
+
     >>> 'IV3MS+IV+IVSUFF_MOOD:I'
-    'S'
+    'Singular'
 
     >>> ''
-    'D'
+    'Dual'
 
     >>> ''
-    'P'
+    'Plural'
 
     >>> 'DET+NOUN+CASE_DEF_ACC'
     None
     '''
-    for subtag in tag.split('+'):
-        if 'MOOD' in subtag:
-            break
-    
 
+    sing = 'Singular'
+    dual = 'Dual'
+    plur = 'Plural'
 
-    ['CVSUFF_SUBJ:2FS',
-    'CVSUFF_SUBJ:2MP',
-    'CVSUFF_SUBJ:2MS',
-    'IV1P',
-    'IV1S',
-    'IV2D',
-    'IV2FP',
-    'IV2FS',
-    'IV2MP',
-    'IV2MS',
-    'IV3FD',
-    'IV3FP',
-    'IV3FS',
-    'IV3MD',
-    'IV3MP',
-    'IV3MS',
-    'IVSUFF_MOOD:I',
-    'IVSUFF_MOOD:J',
-    'IVSUFF_MOOD:S',
-    'IVSUFF_SUBJ:2FS_MOOD:I',
-    'IVSUFF_SUBJ:2FS_MOOD:SJ',
-    'IVSUFF_SUBJ:D_MOOD:I',
-    'IVSUFF_SUBJ:D_MOOD:SJ',
-    'IVSUFF_SUBJ:FP',
-    'IVSUFF_SUBJ:MP_MOOD:I',
-    'IVSUFF_SUBJ:MP_MOOD:SJ',
-    'PVSUFF_3MS',
-    'PVSUFF_SUBJ:1P',
-    'PVSUFF_SUBJ:1S',
-    'PVSUFF_SUBJ:2FS',
-    'PVSUFF_SUBJ:2MP',
-    'PVSUFF_SUBJ:2MS',
-    'PVSUFF_SUBJ:3FD',
-    'PVSUFF_SUBJ:3FP',
-    'PVSUFF_SUBJ:3FS',
-    'PVSUFF_SUBJ:3MD',
-    'PVSUFF_SUBJ:3MP',
-    'PVSUFF_SUBJ:3MS',]
+    # case 0: some are scattered about with case markings
 
+    if 'SG' in tag:
+        return sing
+    elif 'DU' in tag:
+        return dual
+    elif 'PL' in tag:
+        return plur
 
-    # case 1: Verb w/ number
-    # case 2: Noun w/ number
-    # case 3: Adj  w/ number
-    
+    # case 1: Noun, adjective w/ number
+    if 'ADJ' in tag or 'NOUN' in tag:
+        return sing
+
+    # case 2: Verb w/ number
+    if tag.startswith('IV1') or tag.startswith('IV2') or tag.startswith('IV3'):
+
+        # special case for 9 mistakes in OntoNotes 4.0
+        if tag.startswith('IV2D'):
+            return dual
+
+        verb_idx = 3 if tag.startswith('IV1') else 4
+        _number  = tag[verb_idx]
+        return {'S': sing,
+                'D': dual,
+                'P': plur}.get(_number, None)
+
+    if tag.startswith('CV') or tag.startswith('PV'):
+        if tag == 'PV_PASS':
+            return None
+
+        _number = tag[-1]
+        return {'S': sing,
+                'D': dual,
+                'P': plur}.get(_number, None)
+
+    # case 3: pronouns 
+    if 'PRON' in tag:
+        _number = tag[-1]
+        return {'D': dual,
+                'P': plur}.get(_number, sing)
+
+    # catchall
     return None
 
 def aspect(tag):
