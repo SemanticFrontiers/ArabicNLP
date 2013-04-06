@@ -178,6 +178,42 @@ def mood(tag):
             'S': 'Subjunctive',
             'SJ': 'Subj/Jussive'}.get(_mood, None)
 
+def definiteness(tag):
+    '''
+    Returns the definiteness status of a nominal.
+
+    Values:
+        'Definite'
+        'Indefinite'
+        None (if non-applicable)
+
+    >>> definiteness('NOUN_PROP+CASE_INDEF_NOM')
+    'Indefinite'
+
+    >>> definiteness('DET+NOUN')
+    'Definite'
+
+    >>> definiteness('VERB')
+    None
+    '''
+    
+    DEF = 'Definite'
+    IND = 'Indefinite'
+    if 'NOUN' not in tag:
+        return None
+    elif 'INDEF' in tag:
+        return IND
+    elif 'NOUN_PROP' in tag:
+        return DEF
+    elif 'DEF' in tag:
+        return DEF
+    elif tag.startswith('DET'):
+        return DEF
+    elif 'POSS' in tag:
+        return DEF
+    else:
+        return IND
+
 def person(tag):
     '''
     Applicable to verbs and pronouns, this will return 1, 2, or 3 depending on
