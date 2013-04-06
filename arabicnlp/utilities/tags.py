@@ -152,6 +152,7 @@ def mood(tag):
         'Indicative'
         'Subjunctive'
         'Jussive'
+        'Subj/Jussive' (perhaps these are annotation errors?)
         None (if inapplicable)
 
     >>> mood('IV1P+IV+IVSUFF_MOOD:I')
@@ -175,7 +176,7 @@ def mood(tag):
     return {'I': 'Indicative',
             'J': 'Jussive',
             'S': 'Subjunctive',
-            'SJ': 'Subj-Jussive'}.get(_mood, None)
+            'SJ': 'Subj/Jussive'}.get(_mood, None)
 
 def person(tag):
     '''
