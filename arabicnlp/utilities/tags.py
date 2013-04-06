@@ -97,6 +97,24 @@ def gender(tag):
 def mood(tag):
     pass
 
+def person(tag):
+    '''
+    Applicable to verbs and pronouns, this will return 1, 2, or 3 depending on
+    if the inflected verb is in the 1st person, 2nd, etc.
+
+    Returns `None` if person is not specified.
+
+    >>> person('IV3MD+IV+IVSUFF_SUBJ')
+    3
+
+    >>> person('IV')
+    None
+    '''
+    for person in [1, 2, 3]:
+        if str(person) in tag:
+            return person
+    return None
+
 def number(tag):
     '''
     Returns number of a tag if it has, otherwise None.
