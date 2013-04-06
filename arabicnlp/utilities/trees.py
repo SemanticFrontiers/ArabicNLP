@@ -1,3 +1,5 @@
+#coding: utf-8
+
 '''
 @author David Lundgren <david.m.lundgren@gmail.com>
 
@@ -10,6 +12,8 @@ import constants
 not_trace = lambda tree: tree.height() == 2 and tree.node != '-NONE-'
 has_lemma = lambda tree: tree.lemma
 is_clause_node = lambda tree: any([tree.node.startswith(s) for s in ['S', 'SBAR', 'SQ', 'SBARQ', 'FRAG', 'TOP']])
+is_simple = lambda tree: 'SPLIT' not in tree.node and 'CHAIN' not in tree.node
+
 def is_sister_or_ancestor(treepos, sis_treepos): 
     if len(sis_treepos) < len(treepos):
         return True
@@ -116,6 +120,18 @@ def get_clause_node(tree, node_treepos):
     while not is_clause_node(tree[cur_pos]):
         cur_pos = cur_pos[:-1]
     return tree[cur_pos]
+
+def get_verb_node(tree):
+    '''
+    Wrapper to handle complex *SPLIT* and *CHAIN* trees. 
+    Returns tree with the final verb of one of these splits.
+    All splits look something like
+
+    (*SPLIT*
+        (PRT (NEG_PART -لا))
+        (IV3MS+IV+IVSUFF_MOOD:I يَزالُ))
+    '''
+    return tree if is_simple(tree) else tree[-1]
 
 if __name__ == '__main__':
     import doctest

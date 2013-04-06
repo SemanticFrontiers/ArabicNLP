@@ -113,7 +113,9 @@ def number(tag):
     None
     '''
     for subtag in tag.split('+'):
-        if subtag
+        if 'MOOD' in subtag:
+            break
+    
 
 
     ['CVSUFF_SUBJ:2FS',
@@ -161,6 +163,28 @@ def number(tag):
     # case 3: Adj  w/ number
     
     return None
+
+def aspect(tag):
+    '''
+    Returns the aspect of a verb (past, present, future...) or None.
+    >>> aspect('PV+PVSUFF_SUBJ')
+    'PV'
+
+    >>> aspect('IV')
+    'IV'
+
+    >>> aspect('NOUN_NUM+NSUFF_MASC_PL_GEN')
+    None
+    '''
+
+    if 'CV' in tag:
+        return 'CV'
+    elif 'PV' in tag:
+        return 'PV'
+    elif 'IV' in tag:
+        return 'IV'
+    else:
+        return None
 
 def is_passive(tag):
     '''
