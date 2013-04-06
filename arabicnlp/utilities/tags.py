@@ -80,18 +80,67 @@ def gender(tag):
     '''
     Returns gender of a tag if it has, otherwise None.
     >>> 'IV3MS+IV+IVSUFF_MOOD:I'
-    'M'
+    'MASC'
 
     >>> ''
-    'F'
+    'FEM'
 
     >>> 'DET+NOUN+CASE_DEF_ACC'
     None
     '''
+
+    masc = 'MASC'
+    fem  = 'FEM'
+    # TODO: default case MASC
+    # TODO: PRON, REL_PRON, DEM_PRON, POSS_PRON_2MP
+
     # case 1: Verb w/ gender
-    # case 2: Noun w/ gender
-    # case 3: Adj  w/ gender
-    
+    if tag.startswith('IV') and len(tag) >= 3:
+        if tag[3] == 'M':
+            return masc
+        elif tag[3] == 'F':
+            return fem
+        else:
+            return None
+
+    if tag.startswith('CV'):
+        if tag[-2] == 'F':
+            return fem
+        elif tag[-2] == 'M':
+            return masc
+        else:
+            return None
+
+    if tag.startswith('PV'):
+        if tag == 'PV+PVSUFF_3MS':
+            return masc
+        elif ':' in tag and 'M' in tag.split(':')[1]:
+            return masc
+        elif ':' in tag and 'F' in tag.split(':')[1]:
+            return fem
+        else:
+            return None
+
+    # case 2: Noun, adjective w/ gender
+    if 'ADJ' in tag or 'NOUN' in tag:
+        if 'FEM' in tag:
+            return fem
+        else:
+            return masc
+
+    # case 3: pronouns 
+    if 'PRON' in tag:
+        if 'FEM' in tag:
+            return fem
+        if 'PRON_' in tag:
+            if 'F' in tag.split('_')[-1]: # last bit has gender info
+                return fem
+            else:
+                return masc
+
+        return masc
+
+    # catchall
     return None
 
 def mood(tag):
@@ -110,9 +159,9 @@ def person(tag):
     >>> person('IV')
     None
     '''
-    for person in [1, 2, 3]:
-        if str(person) in tag:
-            return person
+    for _person in [1, 2, 3]:
+        if str(_person) in tag:
+            return _person
     return None
 
 def number(tag):
