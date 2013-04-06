@@ -144,7 +144,38 @@ def gender(tag):
     return None
 
 def mood(tag):
-    pass
+    '''
+    Applicable for verbs, this function will return the mood
+    of a given verb. 
+
+    Values include:
+        'Indicative'
+        'Subjunctive'
+        'Jussive'
+        None (if inapplicable)
+
+    >>> mood('IV1P+IV+IVSUFF_MOOD:I')
+    'Indicative'
+    >>> mood('IV1P+IV+IVSUFF_MOOD:J')
+    'Jussive'
+    >>> mood('IV1P+IV+IVSUFF_MOOD:S')
+    'Subjunctive'
+    >>> mood()
+    None
+    '''
+
+    if 'MOOD' not in tag:
+        return None
+
+    # Tags look like this:
+    #   IV2D+IV+IVSUFF_SUBJ:D_MOOD:SJ
+    # so we split on MOOD and then grab after the colon (:)
+    _mood = tag.split('MOOD')[-1][1:]
+
+    return {'I': 'Indicative',
+            'J': 'Jussive',
+            'S': 'Subjunctive',
+            'SJ': 'Subj-Jussive'}.get(_mood, None)
 
 def person(tag):
     '''
