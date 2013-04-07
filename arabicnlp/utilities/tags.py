@@ -37,7 +37,18 @@ def get_case_from_atb_tag(tag):
 ##############################################################
 ## Code to reduce POS tags and tree labels to simpler forms ##
 ##############################################################
+def strip_nums(tag):
+    '''
+    Removes the numbered trace/coreference tag.
+    >>> strip_nums('NP-SBJ-12')
+    'NP-SBJ'
 
+    >>> strip_nums('SBAR-LOC')
+    'SBAR-LOC'
+    '''
+    pattern = re.compile(r'[-=][0-9]+')
+    return pattern.split(tag)[0]
+    
 def strip_dashtags(s):
     '''Removes dashtags from a string s.'''
     return s if s == '-NONE-' else s.split('-')[0].split('=')[0]
@@ -76,6 +87,9 @@ def simplify_verb_tag(tag):
 
     return 'VB' if strip_all(tag) in constants.ARABIC_VERB_TAGS else tag
 
+#########################################
+## Extract useful information from tag ##
+#########################################
 def gender(tag):
     '''
     Returns gender of a tag if it has, otherwise None.
