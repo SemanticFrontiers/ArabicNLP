@@ -12,7 +12,7 @@ import constants
 def not_trace(tree):
     return tree.height() == 2 and tree.node != '-NONE-'
 
-def has_lemma(tree)
+def has_lemma(tree):
     return True if tree.lemma else False
 
 def is_clause_node(tree):

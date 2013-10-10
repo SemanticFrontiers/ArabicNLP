@@ -3,7 +3,7 @@
 import os
 
 # TODO: make this general
-DICT_FILE = '/Users/maxlikely/data/ontonotes/raw/dictStems'
+DICT_FILE = '/Users/David/data/ontonotes/raw/dictStems'
 
 def dictStems():
     with open(DICT_FILE) as fin:
